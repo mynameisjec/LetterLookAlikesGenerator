@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Garamond', serif;
+      background-color: #f4f4f4;
+    }
+    .background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: url('https://c4.wallpaperflare.com/wallpaper/617/363/732/wave-red-lines-light-wallpaper-preview.jpg');
+      background-size: cover;
+      filter: blur(8px);
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      background-color: rgba(255, 255, 255, 0.7);
+      border: 3px solid gold;
+      animation: glow 3s infinite alternate;
+    }
+    .container h1 {
+      font-family: url('fonts.google.com/specimen/Honk'), cursive;
+      font-size: 24px;
+      background: linear-gradient(to right, #ffd700, #8b0000);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin: 10px 0;
+    }
+    #inputBox, #outputBox {
+      width: 80%;
+      max-width: 400px;
+      height: 150px;
+      margin: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      resize: none;
+      overflow: auto;
+      text-align: center;
+      white-space: pre-wrap;
+    }
+    #outputBox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 10px gold;
+      }
+      to {
+        box-shadow: 0 0 20px red;
+      }
+      and {
+      	box-shadow: 0 0 20px orange;
+     }
+    }
+  </style>
+  <title>Glitched Text Generator</title>
+</head>
+<body>
+  <div class="background-container"></div>
+  <div class="container">
+    <h1>Glitched Text Generator</h1>
+    <textarea id="inputBox" placeholder="Enter text here..."></textarea>
+    <div id="outputBox"></div>
+  </div>
+
+  <script>
+    function transformText() {
+      const inputText = document.getElementById('inputBox').value;
+      const outputBox = document.getElementById('outputBox');
+
+      // Homoglyph mapping
+      const homoglyphs = {
+        'a': ['а', 'ɑ', 'ạ', 'ä', 'ą'],
+        'b': ['Ь', 'b', 'ҍ', 'ɓ', 'ḃ'],
+        'c': ['с', 'ç', 'ć', 'ċ', 'č'],
+        'd': ['ԁ', 'd', 'Ԁ', 'đ', 'ď'],
+        'e': ['е', 'é', 'è', 'ẹ', 'ë'],
+        'f': ['f', 'ƒ', 'ғ', 'ſ', 'բ'],
+        'g': ['ɡ', 'g', 'ց', 'ġ', 'ğ'],
+        'h': ['һ', 'h', 'ɦ', 'ḩ', 'ħ'],
+        'i': ['і', 'í', 'ï', 'ɩ', 'ı'],
+        'j': ['ј', 'j', 'ʝ', 'ɉ', 'j̣'],
+        'k': ['k', 'ƙ', 'ķ', 'ḳ', 'ĸ'],
+        'l': ['l', 'ⅼ', 'ɭ', 'ŀ', 'ľ'],
+        'm': ['m', 'ⅿ', 'ɱ', 'ṁ', 'ṃ'],
+        'n': ['п', 'n', 'ɲ', 'ŋ', 'ń'],
+        'o': ['о', 'ó', 'ọ', 'ô', 'ɵ'],
+        'p': ['р', 'ƿ', 'ṗ', 'ṕ', 'ṗ'],
+        'q': ['q', '𝚚', '𝐪', '𝑞', '𝑸'],
+        'r': ['r', 'ʀ', 'ř', 'ɾ', 'ṛ'],
+        's': ['ѕ', 's', 'ʂ', 'ṡ', 'ṣ'],
+        't': ['t', 'ƚ', 'τ', 'ŧ', 'ṫ'],
+        'u': ['υ', 'ú', 'ü', 'ŭ', 'ư'],
+        'v': ['v', 'ν', 'ѵ', 'ʋ', 'ṿ'],
+        'w': ['w', 'ѡ', 'ա', 'ṷ', 'ẉ'],
+        'x': ['х', 'x', 'х̱', 'ẋ', 'ẍ'],
+        'y': ['у', 'ү', 'ý', 'ɏ', 'ẏ'],
+        'z': ['z', 'ƶ', 'ʐ', 'ẕ', 'ż'],
+      };
+
+      let transformedText = '';
+      for (let i = 0; i < inputText.length; i++) {
+        const char = inputText[i];
+        const homoglyphList = homoglyphs[char.toLowerCase()];
+        if (homoglyphList) {
+          const randomIndex = Math.floor(Math.random() * homoglyphList.length);
+          transformedText += (char === char.toUpperCase()) ? homoglyphList[randomIndex].toUpperCase() : homoglyphList[randomIndex];
+        } else {
+          transformedText += inputText[i];
+        }
+      }
+
+      outputBox.textContent = transformedText;
+    }
+
+    document.getElementById('inputBox').addEventListener('input', transformText);
+  </script>
+</body>
+</html
